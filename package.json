@@ -1,8 +1,10 @@
 {
   "name": "elixir-module",
-  "displayName": "elixir_module",
+  "displayName": "Elixir Copy Module Name",
   "description": "",
-  "version": "0.0.1",
+  "version": "0.0.2",
+  "publisher": "KirillKaiumov",
+  "license": "MIT",
   "engines": {
     "vscode": "^1.86.0"
   },
@@ -11,6 +13,10 @@
   ],
   "activationEvents": [],
   "main": "./extension.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/KirillKayumov/vscode-elixir-module"
+  },
   "contributes": {
     "commands": [{
       "command": "elixir-module.copyShortModuleName",
