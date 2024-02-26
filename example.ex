@@ -17,5 +17,8 @@ defmodule Kek.Lol do
 
   defmodule Azaza do
     def kek, do: 83
+
+    defmodule Awesome do
+    end
   end
 end

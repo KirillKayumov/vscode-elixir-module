@@ -2,15 +2,29 @@ const vscode = require('vscode');
 
 function findClosestElixirModule(editor, position) {
     let line = position.line;
+    let acc = [];
+
     while (line >= 0) {
         let text = editor.document.lineAt(line).text;
-        let moduleNameMatch = text.match(/^\s*defmodule\s+([\w.]+)\s+do$/);
+        let moduleNameMatch = text.match(/^(\s*)(defmodule|defprotocol)\s+([\w.]+)\s+do$/);
         if (moduleNameMatch) {
-            return moduleNameMatch[1];
+            const moduleName = moduleNameMatch[3];
+            const identation = moduleNameMatch[1].length;
+
+            if (acc.length === 0) {
+                acc.push([identation, moduleName]);
+            } else if (identation < acc[acc.length - 1][0]) {
+                acc.push([identation, moduleName]);
+            }
         }
         line--;
     }
-    return null;
+
+    if (acc.length === 0) {
+        return null;
+    } else {
+        return acc.map(elem => elem[1]).reverse().join('.');
+    }
 }
 
 function activate(context) {
@@ -22,9 +36,9 @@ function activate(context) {
             if (moduleName) {
                 moduleName = moduleName.split('.').pop();
                 vscode.env.clipboard.writeText(moduleName);
-                vscode.window.showInformationMessage(`Module name "${moduleName}" copied to clipboard`);
+                vscode.window.setStatusBarMessage(`${moduleName} copied to clipboard`, 2000);
             } else {
-                vscode.window.showInformationMessage('No Elixir module found in the file');
+                vscode.window.setStatusBarMessage(`No Elixir module found`, 2000);
             }
         }
     });
@@ -36,9 +50,9 @@ function activate(context) {
             let moduleName = findClosestElixirModule(editor, position);
             if (moduleName) {
                 vscode.env.clipboard.writeText(moduleName);
-                vscode.window.showInformationMessage(`Module name "${moduleName}" copied to clipboard`);
+                vscode.window.setStatusBarMessage(`${moduleName} copied to clipboard`, 2000);
             } else {
-                vscode.window.showInformationMessage('No Elixir module found in the file');
+                vscode.window.setStatusBarMessage(`No Elixir module found`, 2000);
             }
         }
     });

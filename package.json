@@ -2,7 +2,7 @@
   "name": "elixir-module",
   "displayName": "Elixir Copy Module Name",
   "description": "",
-  "version": "0.0.2",
+  "version": "1.0.0",
   "publisher": "KirillKaiumov",
   "license": "MIT",
   "engines": {
